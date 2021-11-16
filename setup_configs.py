@@ -30,4 +30,3 @@ def link_files(folder):
 
 if __name__ == "__main__":
     link_files(".config")
-    link_files(".local")
