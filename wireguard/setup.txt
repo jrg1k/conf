@@ -1,0 +1,40 @@
+## Wireguard server
+## 
+## Legg til følgende i /etc/sysctl.conf og kjør "sysctl -p"
+## net.ipv4.ip_forward=1
+## net.ipv6.conf.all.forwarding=1
+##
+[Interface]
+Address = <server-subnet>/24
+PrivateKey = <server-private-key>
+ListenPort = 51820
+
+
+PostUp = firewall-cmd --zone=public --add-port 51820/udp && firewall-cmd --zone=public --add-masquerade
+PreDown = firewall-cmd --zone=public --remove-port 51820/udp && firewall-cmd --zone=public --remove-masquerade
+
+# Port forwarding
+firewall-cmd --zone="public" --add-forward-port=port=<port>:proto=tcp:toport=<port>:toaddr=<client-local-wg-address>
+firewall-cmd --zone="public" --remove-forward-port=port=<port>:proto=tcp:toport=<port>:toaddr=<client-local-wg-address>
+
+
+[Peer]
+PublicKey = <client-public-key>
+PresharedKey = <preshared-key>
+AllowedIPs = <client-local-wg-address>/32
+
+
+## Wireguard client
+##
+Address = <client-local-wg-address>/32
+PrivateKey = <client-private-key>
+DNS = <dns-resolver>
+
+[Peer]
+PublicKey = <server-public-key>
+PresharedKey = <preshared-key>
+Endpoint = <server-ip-address>:51820
+AllowedIPs = 0.0.0.0/0, ::/0
+PersistentKeepalive = 30
+
+

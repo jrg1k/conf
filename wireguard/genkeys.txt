@@ -1,0 +1,6 @@
+# Make a restricted folder in /root containing keys. Execute command:
+wg genkey | tee privatekey | wg pubkey > publickey
+
+# If desired, a preshared key for symmetric encryption may be generated like
+# this:
+wg genpsk

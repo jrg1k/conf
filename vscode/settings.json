@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80
+    ],
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false
+}

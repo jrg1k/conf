@@ -1,0 +1,7 @@
+-Wall
+-Wextra
+-O2
+-Werror=format-security
+-Werror=implicit-function-declaration
+-I/usr/include/python3.9
+-g
