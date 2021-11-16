@@ -1,1 +1,1 @@
-Configuration files and instructions for linux systems
+## My config files for different systems and software
