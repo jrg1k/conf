@@ -99,6 +99,7 @@ vim.o.swapfile = false
 vim.o.undofile = true
 vim.o.updatetime = 250
 vim.o.completeopt = "menu,menuone,noselect"
+vim.api.nvim_set_keymap("i", "<C-c>", "<ESC>", {})
 
 -- search
 vim.o.hlsearch = false
@@ -514,9 +515,9 @@ cmp.setup {
     sources = {
         { name = "nvim_lsp" },
         { name = "vsnip" },
-        { name = "buffer" },
         { name = "path" },
         { name = "cmdline" },
+        { name = "buffer" },
     },
 }
 
