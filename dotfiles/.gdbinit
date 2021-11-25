@@ -104,7 +104,7 @@ prompt, see the command `python print(gdb.prompt.prompt_help())`''',
 See the `prompt` attribute. This value is used as a Python format string where
 `{pid}` is expanded with the process identifier of the target program.''',
                 'default': '\[\e[1;35m\]>>>\[\e[0m\]'
-           },
+            },
             'prompt_not_running': {
                 'doc': '''Define the value of `{status}` when the target program is running.
 
@@ -1227,7 +1227,7 @@ class Source(Dashboard.Module):
                 # the current line has a different style without ANSI
                 if R.ansi:
                     if self.highlighted and not self.highlight_line:
-                        line_format = '{}' + ansi(number_format, R.style_selected_1) + ' {}'
+                        line_format = '{}' + ansi(number_format, R.style_selected_1) + '  {}'
                     else:
                         line_format = '{}' + ansi(number_format + '  {}', R.style_selected_1)
                 else:
@@ -1955,11 +1955,14 @@ class Registers(Dashboard.Module):
         # fetch registers status
         registers = []
         for name in register_list:
-            # Exclude registers with a dot '.' or parse_and_eval() will fail
+            # exclude registers with a dot '.' or parse_and_eval() will fail
             if '.' in name:
                 continue
             value = gdb.parse_and_eval('${}'.format(name))
             string_value = Registers.format_value(value)
+            # exclude unavailable registers (see #255)
+            if string_value == '<unavailable>':
+                continue
             changed = self.table and (self.table.get(name, '') != string_value)
             self.table[name] = string_value
             registers.append((name, string_value, changed))
