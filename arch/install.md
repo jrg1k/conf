@@ -123,13 +123,34 @@ mount /dev/part1 /mnt/boot
 Install base system and chroot in:
 
 ```console
-pacstrap /mnt base bash-completion neovim
+pacstrap /mnt base
 genfstab -U /mnt >> /mnt/etc/fstab
 # Edit fstab. Btrfs should have mount options noatime,compress=zstd,subvol=@subvol
 vim /mnt/etc/fstab
 arch-chroot /mnt
-pacman -S base-devel linux linux-firmware btrfs-progs networkmanager iwd python python-pynvim man-db man-pages texinfo apparmor firewalld zram-generator (intel|amd)-ucode
 ```
+
+### Configure system
+
+Generate sane mirrors:
+
+```
+reflector -p https -l 40 --score 40 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+Edit and install [core packages](core_packages.txt). Remember to replace the microcode package with the one matching your system.
+
+```
+pacman -S --needed - < core_packages.txt
+```
+
+Add useful environment variables to [/etc/environment](environment).
+
+Append [this](fish_interactive) to /etc/bash.bashrc to make fish the default interactive shell:
+
+
+Exit and reenter the chroot environment.
+
 
 Configure basic system configs:
 
@@ -143,22 +164,23 @@ echo "KEYMAP=us" > /etc/vconsole.conf
 echo "machinename" > /etc/hostname
 ```
 
-Add useful environment variables to [/etc/environment](environment).
-
 Install systemd-boot:
 
 ```console
 bootctl install
 ```
+
 Example configs:
+
 [/boot/loader/loader.conf](loader.conf)
+
 [/boot/loader/entries/arch-hardened.conf](loader.conf)
 
 
 Get the UUID of the main partition with `blkid` and append it to `/boot/loader/entries/arch.conf`:
 
 ```
-blkid | grep cryptdevice >> /boot/loader/entries/arch.conf
+blkid | grep cryptdevice >> /boot/loader/entries/arch-hardened.conf
 ```
 
 Configure [Booster](https://wiki.archlinux.org/title/Booster).
@@ -167,6 +189,7 @@ Booster config:
 [/etc/booster.yaml](booster.yaml)
 
 Generate init images:
+
 ```
 sudo /usr/lib/booster/regenerate_images
 ```

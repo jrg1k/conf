@@ -1,5 +1,5 @@
 apparmor
-base
+base-devel
 bash-completion
 btrfs-progs
 firewalld
@@ -21,6 +21,7 @@ pipewire
 powerline-fonts
 python
 reflector
+texinfo
 ttf-dejavu
 ttf-fira-code
 ttf-liberation
