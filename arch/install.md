@@ -183,6 +183,9 @@ Get the UUID of the main partition with `blkid` and append it to `/boot/loader/e
 blkid | grep cryptdevice >> /boot/loader/entries/arch-hardened.conf
 ```
 
+
+
+
 Configure [Booster](https://wiki.archlinux.org/title/Booster).
 
 Booster config:
@@ -193,6 +196,9 @@ Generate init images:
 ```
 sudo /usr/lib/booster/regenerate_images
 ```
+
+
+
 
 
 Configure NetworkManager backend `/etc/NetworkManager/conf.d/wifi_backend.conf`:
@@ -244,25 +250,22 @@ Now reboot.
 
 ## Post-install
 
-Install a some useful packages and configure some stuff:
+Set x11 keymap:
 
-```console
-pacman -S xorg-server mesa xdg-desktop-portal xdg-desktop-portal-gtk pipewire flatpak noto-fonts ttf-fira-code ttf-dejavu ttf-liberation fish
-pacman -S --asdeps pipewire-pulse
+```
 localectl set-x11-keymap no
 ```
 
-Install a graphical environment:
-[GNOME](https://wiki.archlinux.org/title/GNOME)
+Install [GNOME](https://wiki.archlinux.org/title/GNOME) with useful [packages](de_packages.txt) using:
 
-Run fish as interactive shell by modifying `/etc/bash.bashrc`:
+```
+pacman -S --needed - < de_packages.txt
+```
 
-```console
-if [[ $(ps --no-header --pid=$PPID --format=cmd) != "fish" ]]
-then
-    exec fish
-fi
+Install needed optional [dependencies](optdeps.txt) using:
+
+```
+pacman -S --asdeps - < optdeps.txt
 ```
 
 Reboot and log in to the system.
-

@@ -1,0 +1,5 @@
+alacritty
+gnome
+pipewire
+xdg-desktop-portal-gnome
+mesa
