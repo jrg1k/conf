@@ -4,6 +4,7 @@ bash-completion
 btrfs-progs
 firewalld
 fish
+git
 htop
 intel-ucode
 iwd

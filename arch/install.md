@@ -1,9 +1,6 @@
 # Arch Linux install
 
-You may use these instructions as an example but always check the
-[ArchWiki](https://wiki.archlinux.org/) first and foremost.
-This is an opinionated Arch Linux installation. It features full disk
-encryption, btrfs filesystem, gnome desktop environment and more.
+Always confere the [Arch Wiki](https://wiki.archlinux.org/) for up to date instructions on how to install and configure Arch Linux. This is an opinionated Arch Linux installation. It features full disk encryption, btrfs filesystem, gnome desktop environment and more.
 
 ## Pre-install
 
@@ -79,6 +76,8 @@ fdisk -l
 fdisk /dev/somedisk
 ```
 
+### Setup filesystem
+
 Create partitions:
 
 1. 1 GiB, EFI system partition
@@ -140,63 +139,38 @@ hwclock --systohc
 # Uncomment en_DK.UTF-8 UTF-8 in /etc/locale.gen
 locale-gen
 echo "LANG=en_DK.UTF-8" > /etc/locale.conf
-echo "KEYMAP=no" > /etc/vconsole.conf
+echo "KEYMAP=us" > /etc/vconsole.conf
 echo "machinename" > /etc/hostname
 ```
 
-Configure matching entries in `/etc/hosts`
-
-```console
-127.0.0.1 localhost
-::1 localhost
-127.0.1.1 myhostname.localdomain myhostname
-```
-
-Configure `/etc/mkinitcpio.conf`:
-
-```console
-MODULES=(btrfs)
-BINARIES=(/usr/bin/btrfs)
-FILES=()
-HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt filesystems fsck)
-```
-
-Generate initramfs:
-
-```console
-mkinitcpio -P
-```
+Add useful environment variables to [/etc/environment](environment).
 
 Install systemd-boot:
 
 ```console
 bootctl install
 ```
+Example configs:
+[/boot/loader/loader.conf](loader.conf)
+[/boot/loader/entries/arch-hardened.conf](loader.conf)
 
-Create the bootloader config `/boot/loader/loader.conf`:
-
-```console
-default arch
-timeout 5
-console-mode max
-editor no
-```
 
 Get the UUID of the main partition with `blkid` and append it to `/boot/loader/entries/arch.conf`:
 
-```console
+```
 blkid | grep cryptdevice >> /boot/loader/entries/arch.conf
 ```
 
-Then configure the config file:
+Configure [Booster](https://wiki.archlinux.org/title/Booster).
 
-```console
-title Arch Linux
-linux /vmlinuz-linux
-initrd  /(intel|amd)-ucode.img
-initrd /initramfs-linux.img
-options rd.luks.name=UUID_OF_LUKS_PARTITION=cryptfs root=/dev/mapper/cryptfs rootflags=subvol=@ rd.luks.options=discard lsm=lockdown,yama,apparmor rw
+Booster config:
+[/etc/booster.yaml](booster.yaml)
+
+Generate init images:
 ```
+sudo /usr/lib/booster/regenerate_images
+```
+
 
 Configure NetworkManager backend `/etc/NetworkManager/conf.d/wifi_backend.conf`:
 
