@@ -12,7 +12,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu bemenu-run | xargs swaymsg exec --
 
 ### Output configuration
 #
@@ -46,6 +46,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 input "type:keyboard" {
     xkb_layout "us,no"
     xkb_numlock enable
+    xkb_options grp:win_space_toggle
 }
 
 input "type:touchpad" {
