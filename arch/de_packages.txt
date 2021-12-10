@@ -1,5 +1,12 @@
 alacritty
-gnome
-pipewire
-xdg-desktop-portal-gnome
+bemenu-wayland
+firefox
+glfw-wayland
+gtk3
+gtk4
 mesa
+pipewire
+sway
+swayidle
+swaylock
+xdg-user-dirs

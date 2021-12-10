@@ -256,7 +256,7 @@ Set x11 keymap:
 localectl set-x11-keymap no
 ```
 
-Install [GNOME](https://wiki.archlinux.org/title/GNOME) with useful [packages](de_packages.txt) using:
+Install [Sway](https://wiki.archlinux.org/title/Sway) with useful [packages](de_packages.txt) using:
 
 ```
 pacman -S --needed - < de_packages.txt

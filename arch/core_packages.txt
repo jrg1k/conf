@@ -25,4 +25,5 @@ texinfo
 ttf-dejavu
 ttf-fira-code
 ttf-liberation
+usbctl
 zram-generator

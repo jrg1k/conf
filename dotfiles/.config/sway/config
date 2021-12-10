@@ -12,7 +12,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu bemenu-run -i -p ''
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 ### Output configuration
 #
@@ -44,7 +44,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # Read `man 5 sway-input` for more information about this section.
 
 input "type:keyboard" {
-    xkb_layout "no"
+    xkb_layout "us,no"
     xkb_numlock enable
 }
 
@@ -219,7 +219,16 @@ default_border pixel
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-    swaybar_command waybar
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
 }
 
 include /etc/sway/config.d/*
