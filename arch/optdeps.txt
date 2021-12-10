@@ -3,4 +3,6 @@ pipewire-alsa
 pipewire-jack
 pipewire-pulse
 pipewire-v4l2
+python-neovim
 wireplumber
+wl-clipboard
