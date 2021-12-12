@@ -1,0 +1,11 @@
+allow_images=true
+colors=colors
+dmenu-parse_action=true
+filter_rate=1
+height=440
+insensitive=true
+key_expand=Tab
+line_wrap=word_char
+mode=drun
+term=kitty
+width=760

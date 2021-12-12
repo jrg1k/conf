@@ -1,4 +1,7 @@
 gst-plugin-pipewire
+noto-fonts-cjk
+noto-fonts-emoji
+noto-fonts-extra
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
@@ -6,3 +9,4 @@ pipewire-v4l2
 python-neovim
 wireplumber
 wl-clipboard
+xdg-utils

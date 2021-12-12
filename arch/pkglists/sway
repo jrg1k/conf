@@ -1,7 +1,8 @@
 alacritty
-bemenu-wayland
+ctags
 firefox
 glfw-wayland
+gnome-themes-extra
 gtk3
 gtk4
 mesa
@@ -9,4 +10,5 @@ pipewire
 sway
 swayidle
 swaylock
+wofi
 xdg-user-dirs

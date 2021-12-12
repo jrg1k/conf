@@ -1,4 +1,5 @@
 apparmor
+base
 base-devel
 bash-completion
 btrfs-progs
@@ -15,15 +16,10 @@ man-db
 man-pages
 neovim
 networkmanager
-noto-fonts
 pacman-contrib
 pipewire
-powerline-fonts
 python
 reflector
 texinfo
-ttf-dejavu
-ttf-fira-code
-ttf-liberation
 usbctl
 zram-generator

@@ -120,7 +120,13 @@ mount -o noatime,compress=zstd,subvol=@var_log /dev/mapper/cryptfs /mnt/var/log
 mount /dev/part1 /mnt/boot
 ```
 
-Install base system and chroot in:
+Generate sane mirrors:
+
+```
+reflector -p https -l 40 --score 40 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+### Install base
 
 ```console
 pacstrap /mnt base
@@ -132,21 +138,16 @@ arch-chroot /mnt
 
 ### Configure system
 
-Generate sane mirrors:
+
+Edit and install [core packages](pkglists/core). Remember to replace the microcode package with the one matching your system.
 
 ```
-reflector -p https -l 40 --score 40 --sort rate --save /etc/pacman.d/mirrorlist
+pacman -S --needed - < core
 ```
 
-Edit and install [core packages](core_packages.txt). Remember to replace the microcode package with the one matching your system.
+Add useful environment variables to [/etc/environment](configs/environment).
 
-```
-pacman -S --needed - < core_packages.txt
-```
-
-Add useful environment variables to [/etc/environment](environment).
-
-Append [this](fish_interactive) to /etc/bash.bashrc to make fish the default interactive shell:
+Append [this](configs/bashrc_fish) to /etc/bash.bashrc to make fish the default interactive shell:
 
 
 Exit and reenter the chroot environment.
@@ -172,59 +173,45 @@ bootctl install
 
 Example configs:
 
-[/boot/loader/loader.conf](loader.conf)
+[/boot/loader/loader.conf](configs/loader.conf)
 
-[/boot/loader/entries/arch-hardened.conf](loader.conf)
+[/boot/loader/entries/arch-hardened.conf](configs/arch-hardened.conf)
 
 
-Get the UUID of the main partition with `blkid` and append it to `/boot/loader/entries/arch.conf`:
+Get the UUID of the encrypted partition with:
 
 ```
 blkid | grep cryptdevice >> /boot/loader/entries/arch-hardened.conf
 ```
 
 
+Configure [mkinitcpio](https://wiki.archlinux.org/title/Mkinitcpio).
+mkinitcpio config: [/etc/mkinitcpio.conf](configs/mkinitcpio.conf)
 
-
-Configure [Booster](https://wiki.archlinux.org/title/Booster).
-
-Booster config:
-[/etc/booster.yaml](booster.yaml)
 
 Generate init images:
-
 ```
-sudo /usr/lib/booster/regenerate_images
-```
-
-
-
-
-
-Configure NetworkManager backend `/etc/NetworkManager/conf.d/wifi_backend.conf`:
-
-```console
-[device]
-wifi.backend=iwd
+mkinitcpio -P
 ```
 
-Configure swap by editing `/etc/systemd/zram-generator.conf`:
 
-```console
-[zram0]
-zram-fraction = 1.0
-max-zram-size = 8192
-compression-algorithm = zstd
-```
+Configure NetworkManager backend:
+[/etc/NetworkManager/conf.d/wifi_backend.conf](configs/wifi_backend.conf)
+
+
+Configure swap  using zram by adding 
+[/etc/systemd/zram-generator.conf](configs/zram-generator.conf).
+
 
 Enable services:
 
-```console
-systemctl enable systemd-timesyncd.service
+```
 systemctl enable NetworkManager.service
 systemctl enable apparmor.service
-systemctl enable fstrim.timer
+systemctl enable auditd.service
 systemctl enable firewalld.service
+systemctl enable fstrim.timer
+systemctl enable systemd-timesyncd.service
 ```
 
 Set root password:
@@ -240,11 +227,7 @@ useradd -m -G wheel username
 passwd username
 ```
 
-Allow users of group `wheel` to use sudo:
-
-```console
-visudo
-```
+Allow users of group `wheel` to use sudo using `visudo`.
 
 Now reboot.
 
@@ -256,16 +239,16 @@ Set x11 keymap:
 localectl set-x11-keymap no
 ```
 
-Install [Sway](https://wiki.archlinux.org/title/Sway) with useful [packages](de_packages.txt) using:
+Install [Sway](https://wiki.archlinux.org/title/Sway) with useful [packages](pkglists/sway) and [fonts](pkglists/fonts) for a complete graphical experience using:
 
 ```
-pacman -S --needed - < de_packages.txt
+pacman -S --needed - < pkglist
 ```
 
-Install needed optional [dependencies](optdeps.txt) using:
+Install needed optional [dependencies](pkglists/optdeps) using:
 
 ```
-pacman -S --asdeps - < optdeps.txt
+pacman -S --asdeps - < optdeps
 ```
 
 Reboot and log in to the system.
