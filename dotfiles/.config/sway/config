@@ -17,7 +17,7 @@ set $menu wofi
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg "#282828" solid_color
 #
 # Example configuration:
 #
@@ -222,15 +222,17 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 focus_follows_mouse no
-default_border pixel
+default_border pixel 2
+
+client.focused #83a598 #83a598 #83a598 #83a598 #83a598
+client.unfocused #928374 #928374 #928374 #928374 #928374 
+client.focused_inactive #928374 #928374 #928374 #928374 #928374
 
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    swaybar_command waybar
-}
+exec waybar
 
 set $gnome-schema org.gnome.desktop.interface
 
@@ -238,8 +240,12 @@ exec_always {
     gsettings set $gnome-schema gtk-theme 'Adwaita-dark'
     gsettings set $gnome-schema icon-theme 'Adwaita'
     gsettings set $gnome-schema cursor-theme 'Adwaita'
-    gsettings set $gnome-schema font-name 'Cantarell Regular 12'
+    gsettings set $gnome-schema font-name 'Cantarell 12'
 }
+
+exec /usr/bin/xsettingsd
+
+exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec hash dbus-update-activation-environment 2>/dev/null && \
