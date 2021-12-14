@@ -40,7 +40,7 @@ output 'Unknown MSI MAG271C 0x00000175' {
 exec swayidle -w \
          timeout 900 'swaylock -f -c 000000' \
          timeout 1000 'swaymsg "output * dpms off"' \
-         resume 'swaymsg "output * dpms on"' \
+         resume 'swaymsg "output * dpms on";sleep 2;swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -90,6 +90,9 @@ input "type:pointer" {
 
     # Reload the configuration file
     bindsym $mod+Shift+c reload
+
+    # Lock screen
+    bindsym $mod+Alt+l 'swaylock -f -c 000000'
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
