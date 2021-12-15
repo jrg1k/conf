@@ -18,5 +18,7 @@ swayidle
 swaylock
 vdpauinfo
 wofi
+xdg-desktop-portal-wlr
 xdg-user-dirs
+xorg-xwayland
 xsettingsd
