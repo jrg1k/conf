@@ -59,7 +59,6 @@ vim.g.maplocalleader = " "
 vim.g.indent_blankline_char = "┊"
 vim.g.indent_blankline_filetype_exclude = { "help", "packer" }
 vim.g.indent_blankline_buftype_exclude = { "terminal", "nofile" }
-vim.g.indent_blankline_char_highlight = "LineNr"
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 
 -- Gitsigns
@@ -73,9 +72,7 @@ require("gitsigns").setup {
     },
 }
 
-vim.o.inccommand = "nosplit"
 vim.wo.number = true
-vim.o.hidden = true
 vim.o.mouse = "a"
 vim.o.tabstop = 8
 vim.o.textwidth = 0
@@ -355,28 +352,28 @@ local on_attach = function(_, bufnr)
         bufnr,
         "n",
         "<leader>e",
-        "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
+        "<cmd>lua vim.diagnostic.open_float()<CR>",
         opts
     )
     vim.api.nvim_buf_set_keymap(
         bufnr,
         "n",
         "[d",
-        "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>",
+        "<cmd>lua vim.diagnostic.goto_prev()<CR>",
         opts
     )
     vim.api.nvim_buf_set_keymap(
         bufnr,
         "n",
         "]d",
-        "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",
+        "<cmd>lua vim.diagnostic.goto_next()<CR>",
         opts
     )
     vim.api.nvim_buf_set_keymap(
         bufnr,
         "n",
         "<leader>q",
-        "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>",
+        "<cmd>lua vim.diagnostic.setloclist()<CR>",
         opts
     )
     vim.api.nvim_buf_set_keymap(
