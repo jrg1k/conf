@@ -33,8 +33,8 @@ output * bg "#282828" solid_color
 #     resolution 1920x1080@144Hz
 #     position 1920,0
 # }
-# output 'Unknown 0x02E2 0x00000000' {
-#     resolution 800x600@60Hz
+# output LVDS-1 {
+#     resolution 1600x900
 #     position 0,0
 # }
 
@@ -237,9 +237,7 @@ client.focused_inactive #928374 #928374 #928374 #928374 #928374
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    swaybar_command waybar
-}
+exec waybar
 
 set $gnome-schema org.gnome.desktop.interface
 
