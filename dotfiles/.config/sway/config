@@ -7,6 +7,7 @@ set $left h
 set $down j
 set $up k
 set $right l
+set $bindcmd bindsym --to-code
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
@@ -24,14 +25,18 @@ output * bg "#282828" solid_color
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output 'Unknown MSI MAG271C 0x00000083' {
-    resolution 1920x1080@144Hz 
-    position 0,0
-}
-output 'Unknown MSI MAG271C 0x00000175' {
-    resolution 1920x1080@144Hz
-    position 1920,0
-}
+# output 'Unknown MSI MAG271C 0x00000083' {
+#     resolution 1920x1080@144Hz 
+#     position 0,0
+# }
+# output 'Unknown MSI MAG271C 0x00000175' {
+#     resolution 1920x1080@144Hz
+#     position 1920,0
+# }
+# output 'Unknown 0x02E2 0x00000000' {
+#     resolution 800x600@60Hz
+#     position 0,0
+# }
 
 ### Idle configuration
 #
@@ -73,13 +78,13 @@ input "type:pointer" {
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    $bindcmd $mod+Return exec $term
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    $bindcmd $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    $bindcmd $mod+d exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -89,62 +94,59 @@ input "type:pointer" {
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
-
-    # Lock screen
-    bindsym $mod+Alt+l 'swaylock -f -c 000000'
+    $bindcmd $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    $bindcmd $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    $bindcmd $mod+$left focus left
+    $bindcmd $mod+$down focus down
+    $bindcmd $mod+$up focus up
+    $bindcmd $mod+$right focus right
     # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+    $bindcmd $mod+Left focus left
+    $bindcmd $mod+Down focus down
+    $bindcmd $mod+Up focus up
+    $bindcmd $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    $bindcmd $mod+Shift+$left move left
+    $bindcmd $mod+Shift+$down move down
+    $bindcmd $mod+Shift+$up move up
+    $bindcmd $mod+Shift+$right move right
     # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+    $bindcmd $mod+Shift+Left move left
+    $bindcmd $mod+Shift+Down move down
+    $bindcmd $mod+Shift+Up move up
+    $bindcmd $mod+Shift+Right move right
 #
 # Workspaces:
 #
     # Switch to workspace
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    bindsym $mod+3 workspace number 3
-    bindsym $mod+4 workspace number 4
-    bindsym $mod+5 workspace number 5
-    bindsym $mod+6 workspace number 6
-    bindsym $mod+7 workspace number 7
-    bindsym $mod+8 workspace number 8
-    bindsym $mod+9 workspace number 9
-    bindsym $mod+0 workspace number 10
+    $bindcmd $mod+1 workspace number 1
+    $bindcmd $mod+2 workspace number 2
+    $bindcmd $mod+3 workspace number 3
+    $bindcmd $mod+4 workspace number 4
+    $bindcmd $mod+5 workspace number 5
+    $bindcmd $mod+6 workspace number 6
+    $bindcmd $mod+7 workspace number 7
+    $bindcmd $mod+8 workspace number 8
+    $bindcmd $mod+9 workspace number 9
+    $bindcmd $mod+0 workspace number 10
     # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    bindsym $mod+Shift+3 move container to workspace number 3
-    bindsym $mod+Shift+4 move container to workspace number 4
-    bindsym $mod+Shift+5 move container to workspace number 5
-    bindsym $mod+Shift+6 move container to workspace number 6
-    bindsym $mod+Shift+7 move container to workspace number 7
-    bindsym $mod+Shift+8 move container to workspace number 8
-    bindsym $mod+Shift+9 move container to workspace number 9
-    bindsym $mod+Shift+0 move container to workspace number 10
+    $bindcmd $mod+Shift+1 move container to workspace number 1
+    $bindcmd $mod+Shift+2 move container to workspace number 2
+    $bindcmd $mod+Shift+3 move container to workspace number 3
+    $bindcmd $mod+Shift+4 move container to workspace number 4
+    $bindcmd $mod+Shift+5 move container to workspace number 5
+    $bindcmd $mod+Shift+6 move container to workspace number 6
+    $bindcmd $mod+Shift+7 move container to workspace number 7
+    $bindcmd $mod+Shift+8 move container to workspace number 8
+    $bindcmd $mod+Shift+9 move container to workspace number 9
+    $bindcmd $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -153,39 +155,39 @@ input "type:pointer" {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    $bindcmd $mod+b splith
+    $bindcmd $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+    $bindcmd $mod+s layout stacking
+    $bindcmd $mod+w layout tabbed
+    $bindcmd $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    $bindcmd $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    $bindcmd $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    # bindsym $mod+space focus mode_toggle
+    # $bindcmd $mod+space focus mode_toggle
 
     # Move focus to the parent container
-    bindsym $mod+a focus parent
+    $bindcmd $mod+a focus parent
 
 #
 # Special keybinds:
 #
-    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-    bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-    bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-    bindsym XF86MonBrightnessUp exec brightnessctl set +5%
-    bindsym XF86AudioPlay exec playerctl play-pause
-    bindsym XF86AudioNext exec playerctl next
-    bindsym XF86AudioPrev exec playerctl previous
-    bindsym XF86Search exec bemenu-run
+    $bindcmd XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    $bindcmd XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    $bindcmd XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    $bindcmd XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    $bindcmd XF86MonBrightnessDown exec brightnessctl set 5%-
+    $bindcmd XF86MonBrightnessUp exec brightnessctl set +5%
+    $bindcmd XF86AudioPlay exec playerctl play-pause
+    $bindcmd XF86AudioNext exec playerctl next
+    $bindcmd XF86AudioPrev exec playerctl previous
+    $bindcmd XF86Search exec bemenu-run
 
 #
 # Scratchpad:
@@ -194,11 +196,11 @@ input "type:pointer" {
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    $bindcmd $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    $bindcmd $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -207,22 +209,22 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    $bindcmd $left resize shrink width 10px
+    $bindcmd $down resize grow height 10px
+    $bindcmd $up resize shrink height 10px
+    $bindcmd $right resize grow width 10px
 
     # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    $bindcmd Left resize shrink width 10px
+    $bindcmd Down resize grow height 10px
+    $bindcmd Up resize shrink height 10px
+    $bindcmd Right resize grow width 10px
 
     # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+    $bindcmd Return mode "default"
+    $bindcmd Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+$bindcmd $mod+r mode "resize"
 
 focus_follows_mouse no
 default_border pixel 2
@@ -235,7 +237,9 @@ client.focused_inactive #928374 #928374 #928374 #928374 #928374
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-exec waybar
+bar {
+    swaybar_command waybar
+}
 
 set $gnome-schema org.gnome.desktop.interface
 
@@ -246,10 +250,12 @@ exec_always {
     gsettings set $gnome-schema font-name 'Cantarell 12'
 }
 
+seat seat0 xcursor_theme Adwaita 16
+
 exec /usr/bin/xsettingsd
 
-exec "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP

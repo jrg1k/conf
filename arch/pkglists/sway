@@ -7,10 +7,8 @@ gnome-themes-extra
 gtk3
 gtk4
 libsecret
-libva-mesa-driver
 libva-utils
 mesa
-mesa-vdpau
 pipewire
 polkit-gnome
 sway

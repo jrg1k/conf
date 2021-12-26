@@ -12,6 +12,7 @@ iwd
 linux
 linux-firmware
 linux-hardened
+lsd
 man-db
 man-pages
 neovim
