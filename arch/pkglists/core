@@ -3,6 +3,7 @@ base
 base-devel
 bash-completion
 btrfs-progs
+ctags
 firewalld
 fish
 git
@@ -16,10 +17,8 @@ lsd
 man-db
 man-pages
 neovim
-networkmanager
 openssh
 pacman-contrib
-pipewire
 python
 reflector
 texinfo
