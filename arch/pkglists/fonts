@@ -1,10 +1,5 @@
-noto-fonts
-noto-fonts-cjk
-noto-fonts-emoji
-noto-fonts-extra
 otf-font-awesome
 powerline-fonts
-ttf-dejavu
-ttf-fira-code
-ttf-liberation
+ttf-fira-mono
+ttf-fira-sans
 ttf-nerd-fonts-symbols

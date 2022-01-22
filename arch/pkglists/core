@@ -1,7 +1,6 @@
 apparmor
 base
 base-devel
-bash-completion
 btrfs-progs
 ctags
 firewalld
