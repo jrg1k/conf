@@ -1,0 +1,10 @@
+tmpfs                                       /tmp            tmpfs   rw,noatime,nodev,noexec,nosuid                              0 0
+tmpfs                                       /dev/shm        tmpfs   rw,noatime,nodev,noexec,nosuid                              0 0
+
+UUID=<root-device-uuid>                     /               btrfs   rw,noatime,compress=zstd,ssd,space_cache,subvol=@           0 0
+UUID=<root-device-uuid>                     /home           btrfs   rw,noatime,compress=zstd,ssd,space_cache,subvol=@home       0 0
+UUID=<root-device-uuid>                     /var/log        btrfs   rw,noatime,compress=zstd,ssd,space_cache,subvol=@var_log    0 0
+UUID=<root-device-uuid>                     /.snapshots     btrfs   rw,noatime,compress=zstd,ssd,space_cache,subvol=@snapshots  0 0
+
+UUID=<boot-device-uuid>                     /boot           ext4    rw,noatime                                                  0 0
+UUID=<efi-device-uuid>                      /boot/efi       vfat    rw,noatime                                                  0 0
