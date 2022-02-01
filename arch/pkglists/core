@@ -2,6 +2,7 @@ apparmor
 base
 base-devel
 btrfs-progs
+chrony
 ctags
 firewalld
 fish
