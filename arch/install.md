@@ -1,6 +1,6 @@
 # Arch Linux install
 
-Always confere the [Arch Wiki](https://wiki.archlinux.org/) for up to date instructions on how to install and configure Arch Linux. This is an opinionated Arch Linux installation. It features full disk encryption, btrfs filesystem, gnome desktop environment and more.
+Always confere the [Arch Wiki](https://wiki.archlinux.org/) for up to date instructions on how to install and configure Arch Linux. This is an opinionated Arch Linux installation. It features full disk encryption, btrfs filesystem and more.
 
 ## Pre-install
 
