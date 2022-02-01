@@ -8,92 +8,38 @@ Download the latest arch install iso from the
 [download page](https://archlinux.org/download/).
 Torrents are preffered due to increased security and reduced load on Arch infrastructure.
 
-Verify using sha1:
-
-```console
-sha1sum <path-to-iso-image> | grep <provided-sha1-sum>
-```
-
-If the command outputs the signature it was successfull.
-
-Verify using PGP:
-
-Receive PGP-key using gpg:
-
-```console
-gpg --recv-keys <gpg-key-fingerprint>
-```
-
-Import local file:
-
-```console
-gpg --import <file-path>
-```
-
-Once the key has been imported download the pgp signature and cd to the download directory:
-
-```console
-gpg --verify-files <sig-file>
-```
-
 Now the image is ready to be burned to a USB-stick.
 Plug the usb stick in and find its device name using lsblk.
 Create the install media using dd:
 
-```console
-dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdx conv=fsync oflag=direct status=progress
+```
+sudo dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdx conv=fsync oflag=direct status=progress && sudo sync
 ```
 
 ## Install
 
-Set keyboard layout:
+Follow the [Arch installation guide](https://wiki.archlinux.org/title/Installation_guide) prepare the for installation such as setting keyboard layout and connecting to the internet. 
 
-```console
-loadkeys no
+## Setup filesystem
+
+Partition layout:
+
+```
+/dev/sdX1 - - - 1G                  EFI System
+/dev/sdX2 - - - remaining space     Linux filesystem
 ```
 
-Check if efivars exist:
+Encrypt root partition:
 
-```console
-ls /sys/firmware/efi/efivars
 ```
-
-If using wifi connect to internet using [iwctl](https://wiki.archlinux.org/title/Iwd#iwctl).
-Otherwise ethernet should just work.
-Ping some site, for example archlinux.org to check connectivity.
-
-Update system clock and check status:
-
-```console
-timedatectl set-ntp 1
-timedatectl
-```
-
-Find and format disk using fdisk:
-
-```console
-fdisk -l
-fdisk /dev/somedisk
-```
-
-### Setup filesystem
-
-Create partitions:
-
-1. 1 GiB, EFI system partition
-2. All space left, Linux filesystem
-
-Encrypt main partition:
-
-```console
-cryptsetup luksFormat /dev/part2
-cryptsetup open /dev/part2 cryptfs
+cryptsetup luksFormat /dev/sdX2
+cryptsetup open /dev/sdX2 cryptfs
 ```
 
 Format partitions:
 
-1. `mkfs.fat -F32 /dev/part1`
-2. `mkfs.btrfs -L ARCH /dev/mapper/cryptfs`
+1. `mkfs.fat -F32 /dev/sdX1`
+2. `mkfs.btrfs -L ROOT /dev/mapper/cryptfs`
 
 Mount the main partition and create subvolumes:
 
@@ -117,7 +63,7 @@ mkdir /mnt/var/log
 mount -o noatime,compress=zstd,subvol=@home /dev/mapper/cryptfs /mnt/home
 mount -o noatime,compress=zstd,subvol=@snapshots /dev/mapper/cryptfs /mnt/.snapshots
 mount -o noatime,compress=zstd,subvol=@var_log /dev/mapper/cryptfs /mnt/var/log
-mount /dev/part1 /mnt/boot
+mount -o noatime,umask=0007 /dev/sdX1 /mnt/boot
 ```
 
 Generate sane mirrors:
@@ -126,108 +72,49 @@ Generate sane mirrors:
 reflector -p https -l 40 --score 40 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-### Install base
+## Installation and configuration
 
-```console
-pacstrap /mnt base
-genfstab -U /mnt >> /mnt/etc/fstab
-# Edit fstab. Btrfs should have mount options noatime,compress=zstd,subvol=@subvol
-vim /mnt/etc/fstab
-arch-chroot /mnt
-```
+[Install essential packages](https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages) and [Configure the system](https://wiki.archlinux.org/title/Installation_guide#Configure_the_system).
 
-### Configure system
+Install [packages](pkglists) and [microcode](https://wiki.archlinux.org/title/Microcode). If using wireless connection install and configure [iwd](https://wiki.archlinux.org/title/Iwd).
 
+Install a [bootloader](https://wiki.archlinux.org/title/Arch_boot_process#Boot_loader). Remember to add the proper device UUIDs to the bootloader configuration files. They can easily be obtained using `blkid -s UUID`.
 
-Edit and install [core packages](pkglists/core). Remember to replace the microcode package with the one matching your system.
+Add system [configuration files](configs) as needed.
+
+If using dracut copy the kernel and generate the initramfs:
 
 ```
-pacman -S --needed - < core
+cp /lib/modules/<kver>/vmlinuz /boot/vmlinuz-linux
+dracut --hostonly --no-hostonly-cmdline --kver <kver> /boot/initramfs-linux.img
 ```
 
-Add useful environment variables to [/etc/environment](configs/environment).
-
-Append [this](configs/bashrc_fish) to /etc/bash.bashrc to make fish the default interactive shell:
-
-
-Exit and reenter the chroot environment.
-
-
-Configure basic system configs:
-
-```console
-ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
-hwclock --systohc
-# Uncomment en_DK.UTF-8 UTF-8 in /etc/locale.gen
-locale-gen
-echo "LANG=en_DK.UTF-8" > /etc/locale.conf
-echo "KEYMAP=us" > /etc/vconsole.conf
-echo "machinename" > /etc/hostname
-```
-
-Install systemd-boot:
-
-```console
-bootctl install
-```
-
-Example configs:
-
-[/boot/loader/loader.conf](configs/loader.conf)
-
-[/boot/loader/entries/arch-hardened.conf](configs/arch-hardened.conf)
-
-
-Get the UUID of the encrypted partition with:
-
-```
-blkid | grep cryptdevice >> /boot/loader/entries/arch-hardened.conf
-```
-
-
-Configure [mkinitcpio](https://wiki.archlinux.org/title/Mkinitcpio).
-mkinitcpio config: [/etc/mkinitcpio.conf](configs/mkinitcpio.conf)
-
-
-Generate init images:
-```
-mkinitcpio -P
-```
-
-
-Configure NetworkManager backend:
-[/etc/NetworkManager/conf.d/wifi_backend.conf](configs/wifi_backend.conf)
-
-
-Configure swap  using zram by adding 
-[/etc/systemd/zram-generator.conf](configs/zram-generator.conf).
-
+Alternatively add configuration files to do this [automatically](https://wiki.archlinux.org/title/Dracut#Generate_a_new_initramfs_on_kernel_upgrade) on kernel install and upgrade.
 
 Enable services:
 
 ```
-systemctl enable NetworkManager.service
 systemctl enable apparmor.service
 systemctl enable auditd.service
+systemctl enable chronyd.service
 systemctl enable firewalld.service
 systemctl enable fstrim.timer
-systemctl enable systemd-timesyncd.service
 ```
 
-Set root password:
+Create admin user and add group wheel to the sudoers file:
 
-```console
-passwd
 ```
-
-Create admin user:
-
-```console
 useradd -m -G wheel username
 passwd username
+# Uncomment "%wheel ALL=(ALL) ALL"
+EDITOR=nvim visudo
 ```
 
-Allow users of group `wheel` to use sudo using `visudo`.
+Lock the root accound:
+
+```
+passwd --lock root
+```
 
 Now reboot.
 
@@ -236,19 +123,7 @@ Now reboot.
 Set x11 keymap:
 
 ```
-localectl set-x11-keymap no
+localectl set-x11-keymap us
 ```
 
-Install [Sway](https://wiki.archlinux.org/title/Sway) with useful [packages](pkglists/sway) and [fonts](pkglists/fonts) for a complete graphical experience using:
-
-```
-pacman -S --needed - < pkglist
-```
-
-Install needed optional [dependencies](pkglists/optdeps) using:
-
-```
-pacman -S --asdeps - < optdeps
-```
-
-Reboot and log in to the system.
+Install more packages like a graphical environment.
