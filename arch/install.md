@@ -99,6 +99,8 @@ systemctl enable auditd.service
 systemctl enable chronyd.service
 systemctl enable firewalld.service
 systemctl enable fstrim.timer
+systemctl enable systemd-networkd.service
+systemctl enable systemd-resolved.service
 ```
 
 Create admin user and add group wheel to the sudoers file:
