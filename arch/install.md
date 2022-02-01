@@ -18,7 +18,7 @@ sudo dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdx conv=fsync ofl
 
 ## Install
 
-Follow the [Arch installation guide](https://wiki.archlinux.org/title/Installation_guide) prepare for installation such as setting keyboard layout and connecting to the internet. 
+Follow the [Arch installation guide](https://wiki.archlinux.org/title/Installation_guide) and prepare for installation such as setting keyboard layout and connecting to the internet. 
 
 ## Setup filesystem
 
