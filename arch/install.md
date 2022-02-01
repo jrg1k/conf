@@ -43,7 +43,7 @@ Format partitions:
 
 Mount the main partition and create subvolumes:
 
-```console
+```
 mount -o noatime,compress=zstd /dev/mapper/cryptfs /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
@@ -54,7 +54,7 @@ umount /mnt
 
 Mount the devices and subvolumes:
 
-```console
+```
 mount -o noatime,compress=zstd,subvol=@ /dev/mapper/cryptfs /mnt
 mkdir /mnt/boot
 mkdir /mnt/home
