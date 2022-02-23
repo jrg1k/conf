@@ -1,0 +1,37 @@
+# nextcloud caddy config
+<domain> {
+	tls /etc/letsencrypt/live/<domain>/fullchain.pem /etc/letsencrypt/live/<domain>/privkey.pem {
+		protocols tls1.3
+	}
+
+	header {
+		Strict-Transport-Security "max-age=63072000"
+	}
+
+	encode gzip
+
+	root * /usr/share/nextcloud
+	file_server
+
+	redir /.well-known/carddav /remote.php/dav permanent
+	redir /.well-known/caldav /remote.php/dav permanent
+
+	php_fastcgi unix//run/php-fpm/nextcloud.sock {
+		env front_controller_active true
+	}
+
+	@forbidden {
+		path /.htaccess
+		path /data/*
+		path /config/*
+		path /db_structure
+		path /.xml
+		path /README
+		path /3rdparty/*
+		path /lib/*
+		path /templates/*
+		path /occ
+		path /console.php
+	}
+	respond @forbidden 404
+}
