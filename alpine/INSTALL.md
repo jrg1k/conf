@@ -32,9 +32,9 @@ UUID=000000000000000000000000000000000000   /var            btrfs   rw,noatime,c
 
 ## Configure
 
-Mount `/media/lbu`.
+Mount all: `mount -a`
 
-Create cache directory `/var/cache/apk`.
+Create cache directory `/media/sda2/cache`.
 
 
 Configure lbu in `/etc/lbu/lbu.conf`.
