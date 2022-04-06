@@ -3,6 +3,6 @@ noto-fonts-emoji
 noto-fonts-extra
 otf-font-awesome
 powerline-fonts
-ttf-fira-mono
-ttf-fira-sans
-ttf-nerd-fonts-symbols
+ttf-dejavu
+ttf-jetbrains-mono
+ttf-liberation
