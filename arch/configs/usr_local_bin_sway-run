@@ -2,4 +2,5 @@
 
 eval $(gnome-keyring-daemon --start)
 export SSH_AUTH_SOCK
+export WLR_NO_HARDWARE_CURSORS=1
 sway --unsupported-gpu
