@@ -1,6 +1,6 @@
-UUID=<efi-disk>                             /boot           vfat       rw,noatime,umask=0007                                            0 2
-
-UUID=<decrypted-root-device>                /               btrfs      rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@           0 0
-UUID=<decrypted-root-device>                /home           btrfs      rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@home       0 0
-UUID=<decrypted-root-device>                /var/log        btrfs      rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@var_log    0 0
-UUID=<decrypted-root-device>                /.snapshots     btrfs      rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@snapshots  0 0
+UUID=<efi-disk>                             /boot           vfat    rw,noatime,umask=0007                                                                           0 2
+UUID=<root-device>                          /               btrfs   rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@                                          0 0
+UUID=<root-device>                          /home           btrfs   rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@home                                      0 0
+UUID=<root-device>                          /var/log        btrfs   rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@var_log                                   0 0
+UUID=<root-device>                          /.snapshots     btrfs   rw,noatime,compress=zstd:3,ssd,space_cache=v2,subvol=@snapshots                                 0 0
+UUID=<data-device>                          /media/backup   btrfs   nofail,x-systemd.device-timeout=1s,rw,noatime,compress=zstd:3,space_cache=v2,subvol=@backup     0 0
